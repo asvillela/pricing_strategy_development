@@ -10,10 +10,12 @@ https://www.kaggle.com/datasets/bhanupratapbiswas/retail-price-optimization-case
 ![Plot](IMG_1125.jpeg)
 
 
-## The process includes the following key steps:  
+**The process includes the following key steps:**  
 
-[[PREPARATION IMAGE]]  
-**DATA PREPARATION**  
+
+## DATA PREPARATION  
+<img src="Data Preparation.jpg" align="right" width="300" height="150">  
+
 After importing the database, reprocess data into a dataframe with the following relevant columns.  
 
 ```
@@ -26,8 +28,9 @@ retail_price
 <img src="IMG_1126.jpeg" width="550" height="200">
 
 
-[[ANCHOR IMAGE]]  
-**IDENTIFY ANCHORS**  
+## IDENTIFY ANCHORS  
+<img src="41mRH8nX0ZL.jpg" align="right" width="150" height="200">  
+
 Anchors are the own skus we are building the pricing strategy for.  
 Objective is to identify the skus that will drive the most value. The tool helps identify the highest-selling skus, but other strategic skus may be added as needed.  
 
@@ -62,7 +65,7 @@ sales_by_sku_df.rename(columns={'product_id': 'product',
 anchors = identify_anchors(sales_by_sku_df)
 anchors
 ```  
-<img src="IMG_1127.jpeg" width="800" height="200">
+<img src="IMG_1127.jpeg">
 
 From those, you select the top or most strategic ones as an anchors list.
 
@@ -73,8 +76,9 @@ anchors = ['bed2',
 ```
 
 
-[[PAIRS IMAGE]]  
-**IDENTIFY PAIRS**  
+## IDENTIFY PAIRS  
+<img src="Identify Pairs.png" align="right" width="200" height="180">  
+
 Pairs are the competitive skus that have the highest impact on anchor sales.  
 Leveraging sales data, we identify the pair with the highest negative correlation between sales and the price-index (anchor vs pair).  
 
@@ -84,11 +88,11 @@ This function will use as input:
 - a list with the all products (all_products)  
 - the anchor product  
 
-filtered_df  
+***filtered_df***  
 <img src="IMG_1128.jpeg" width="650" height="200">
 
-all_products  
-<img src="IMG_1129.jpeg" width="280" height="230">
+***all_products***  
+<img src="IMG_1129.jpeg" width="270" height="210">
 
 ```
 # Function to identify correlations  
@@ -144,11 +148,19 @@ For each anchor, run the get_correlations function to identify the best pair.
 correlations = get_correlation(filtered_df, anchors[0], all_products)
 correlations
 ```
+<img src="IMG_1131.jpeg" width="800" height="150">
 
-[[COMPARISON IMAGE]]  
-**EVALUATE PAIRS**  
-From the list, we select the best pair for each anchor, usually the highest ix_vol_share_corr.  
+From this list, we select the best pair for each anchor, usually the highest ix_vol_share_corr.  
+
+
+## EVALUATE PAIRS  
+<img src="Evaluate.jpg" align="right" width="200" height="130">  
+
 After identifying the best pair for each anchor, use the evaluate_pairs function.  
+This function takes as input:  
+- the filtered_df created earlier
+- the anchor sku
+- the pair sku
 
 ```
 # Function to evaluate anchor-pair skus  
@@ -228,8 +240,7 @@ pair = 'bed5'
 
 merged_df = evaluate_pairs(filtered_df, anchor, pair)
 ```
-
-<img src="IMG_1131.jpeg" width="800" height="150">
+<img src="IMG_1132.jpeg">
 
 
 From the dataframe returned from the evaluate_pairs function, get a linear regression model to predict approximated volume shares for each price index.  
@@ -264,10 +275,12 @@ def get_linear_model(df):
 
 model = get_linear_model(merged_df)
 ```
-<img src="IMG_1132.jpeg" width="800" height="240">
+<img src="IMG_1133.jpeg" width="300" height="220">
 
 
-**IDENTIFY OPTIMAL PRICE INDEX VS PAIR FOR EACH ANCHOR**  
+## IDENTIFY OPTIMAL PRICE INDEX VS PAIR FOR EACH ANCHOR  
+<img src="optimize.jpg" align="right" width="300" height="100">  
+
 Modeling the sales (or shares) per price-index vs pair, and including internal financial structure of anchor skus, we can identify the price-index vs pair that will result in highest sales or profit.  
 
 This step uses a fuction with the following inputs:  
@@ -400,9 +413,7 @@ def find_optimal_ix(financials, merged_df, anchor):
 
 find_optimal_ix(financials, merged_df, anchor)
 ```
-
-<img src="IMG_1133.jpeg" width="300" height="200">
-
+<img src="IMG_1134.jpeg" width="700" height="400">
 
 For each anchor:
 - run the **get_correlations** function to identify the best pair for each anchor  
@@ -410,8 +421,9 @@ For each anchor:
 - and finally run the **find_optimal_ix**  
 
 
-[[RESULTS IMAGE]]  
-**OUTCOMES**  
+## OUTCOMES  
+<img src="results.jpg" align="right" width="200" height="120">  
+
 This exercise will provide inputs for a recommendation on:  
 - Best anchors to select  
 - Ideal pairs for each anchor  
