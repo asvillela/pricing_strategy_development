@@ -7,7 +7,7 @@ It leverages Nielsen sales and pricing data and internal financial data from sku
 For confidentiality purposes, the code shared here does not include any real P&G data. It uses a Kaggle database (link below) instead of Nielsen reports and dummy financial data.  
 https://www.kaggle.com/datasets/bhanupratapbiswas/retail-price-optimization-case-study  
 
-[[INSERT KAGGLE TABLE IMAGE HERE]]  
+![Plot](IMG_1125.jpeg)
 
 
 ## The process includes the following key steps:  
@@ -23,7 +23,7 @@ retail_price = retail_price[['product_id', 'product_category_name',
        'month_year', 'qty', 'total_price', 'unit_price']]
 retail_price
 ```  
-[[retail_price TABLE IMAGE]]  
+<img src="IMG_1126.jpeg" width="550" height="200">
 
 
 [[ANCHOR IMAGE]]  
@@ -62,7 +62,7 @@ sales_by_sku_df.rename(columns={'product_id': 'product',
 anchors = identify_anchors(sales_by_sku_df)
 anchors
 ```  
-[[SALES BY SKU BAR CHART IMAGE]]  
+<img src="IMG_1127.jpeg" width="800" height="200">
 
 From those, you select the top or most strategic ones as an anchors list.
 
@@ -83,8 +83,12 @@ This function will use as input:
 - a dataframe (filtered_df) with the following columns: month, manufacturer, count, product, sales_msu, sales_mlc, val_share, vol_share
 - a list with the all products (all_products)  
 - the anchor product  
-[[filtered_df TABLE IMAGE]]  
-[[all_products TABLE IMAGE]]
+
+filtered_df  
+<img src="IMG_1128.jpeg" width="650" height="200">
+
+all_products  
+<img src="IMG_1129.jpeg" width="280" height="230">
 
 ```
 # Function to identify correlations  
@@ -224,7 +228,9 @@ pair = 'bed5'
 
 merged_df = evaluate_pairs(filtered_df, anchor, pair)
 ```
-[[EVALUATE PAIRS CHARTS IMAGE]]  
+
+<img src="IMG_1131.jpeg" width="800" height="150">
+
 
 From the dataframe returned from the evaluate_pairs function, get a linear regression model to predict approximated volume shares for each price index.  
 
@@ -258,7 +264,7 @@ def get_linear_model(df):
 
 model = get_linear_model(merged_df)
 ```
-[[REGRESSION MODEL IMAGE]]
+<img src="IMG_1132.jpeg" width="800" height="240">
 
 
 **IDENTIFY OPTIMAL PRICE INDEX VS PAIR FOR EACH ANCHOR**  
@@ -394,7 +400,8 @@ def find_optimal_ix(financials, merged_df, anchor):
 
 find_optimal_ix(financials, merged_df, anchor)
 ```
-[[OPTIMAL IX CHARTS AND TABLES IMAGE]]  
+
+<img src="IMG_1133.jpeg" width="300" height="200">
 
 
 For each anchor:
